@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart and Billing</title>
+  <link rel="stylesheet" href="cart.css">
+  
+  <script>
+    function updateCart() {
+      const quantities = document.querySelectorAll(".quantity");
+      let total = 0;
+
+      // Calculate item totals
+      quantities.forEach((input, index) => {
+        const unitPrice = parseFloat(input.getAttribute('data-price'));
+        const itemTotal = unitPrice * input.value;
+        total += itemTotal;
+
+        // Update item total on the page
+        document.getElementById("itemTotal" + index).innerText = "₹" + itemTotal.toFixed(2);
+      });
+
+      // Update Order Summary
+      const shippingFee = 5;
+      const tax = total * 0.1;
+      const grandTotal = total + shippingFee + tax;
+      document.getElementById("subtotal").innerText = "₹" + total.toFixed(2);
+      document.getElementById("shipping").innerText = "₹" + shippingFee.toFixed(2);
+      document.getElementById("tax").innerText = "₹" + tax.toFixed(2);
+      document.getElementById("grandTotal").innerText = "₹" + grandTotal.toFixed(2);
+
+      // Check if the "Place Order" button should be enabled
+      checkFormCompletion();
+    }
+
+    function checkFormCompletion() {
+      const quantities = document.querySelectorAll(".quantity");
+      const formInputs = document.querySelectorAll(".form-input");
+      const placeOrderButton = document.getElementById("placeOrderButton");
+      
+      // Check if at least one item is added to the cart
+      const hasItems = Array.from(quantities).some(input => input.value > 0);
+      
+      // Check if all billing fields are filled
+      const allFieldsFilled = Array.from(formInputs).every(input => input.value.trim() !== "");
+
+      // Enable or disable the Place Order button
+      placeOrderButton.disabled = !(hasItems && allFieldsFilled);
+    }
+
+    function placeOrder() {
+      // Ensure the form is completely valid before proceeding
+      const placeOrderButton = document.getElementById("placeOrderButton");
+      if (!placeOrderButton.disabled) {
+        // Redirect to payment page
+        window.location.href = "payment.html";
+      } else {
+        alert("Please fill out all required fields and add items to the cart.");
+      }
+    }
+  </script>
+</head>
+<body onload="updateCart()">
+
+<h1>Cart and Billing</h1>
+
+<div class="container">
+  <!-- Cart Section -->
+  <div class="cart-section">
+    <h2>Your Cart</h2>
+    <table class="cart-table">
+      <tr>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Unit Price</th>
+        <th>Total</th>
+      </tr>
+      
+      <tr id="cartRow0">
+        <td>Rice Husk</td>
+        <td><input type="number" id="quantity0" value="0" min="0" class="form-input quantity" data-price="8" onchange="updateCart()"></td>
+        <td>₹8.00</td>
+        <td id="itemTotal0">₹0.00</td>
+      </tr>
+      
+      <tr id="cartRow1">
+        <td>Rice Straw</td>
+        <td><input type="number" id="quantity1" value="0" min="0" class="form-input quantity" data-price="11" onchange="updateCart()"></td>
+        <td>₹11.00</td>
+        <td id="itemTotal1">₹0.00</td>
+      </tr>
+
+      <tr id="cartRow2">
+        <td>Sugarcane Bagasse</td>
+        <td><input type="number" id="quantity2" value="0" min="0" class="form-input quantity" data-price="10" onchange="updateCart()"></td>
+        <td>₹10.00</td>
+        <td id="itemTotal2">₹0.00</td>
+      </tr>
+
+      <tr id="cartRow3">
+        <td>Coconut Shell</td>
+        <td><input type="number" id="quantity3" value="0" min="0" class="form-input quantity" data-price="10" onchange="updateCart()"></td>
+        <td>₹10.00</td>
+        <td id="itemTotal3">₹0.00</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Billing Section -->
+  <div class="billing-section">
+    <h2>Billing Information</h2>
+    <form>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" class="form-input" required oninput="checkFormCompletion()">
+
+      <label for="address">Address</label>
+      <input type="text" id="address" class="form-input" required oninput="checkFormCompletion()">
+
+      <label for="city">City</label>
+      <input type="text" id="city" class="form-input" required oninput="checkFormCompletion()">
+
+      <label for="state">State/Province</label>
+      <input type="text" id="state" class="form-input" required oninput="checkFormCompletion()">
+
+      <label for="zip">ZIP/Postal Code</label>
+      <input type="text" id="zip" class="form-input" required oninput="checkFormCompletion()">
+
+      <label for="country">Country</label>
+      <select id="country" class="form-input" required onchange="checkFormCompletion()">
+        <option value="">Select</option>
+        <option value="IN">India</option>
+      </select>
+    </form>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="summary-section">
+    <h2>Order Summary</h2>
+    <table class="summary-table">
+      <tr>
+        <td>Subtotal</td>
+        <td id="subtotal">₹0.00</td>
+      </tr>
+      <tr>
+        <td>Shipping Fee</td>
+        <td id="shipping">₹5.00</td>
+      </tr>
+      <tr>
+        <td>Tax (10%)</td>
+        <td id="tax">₹0.00</td>
+      </tr>
+      <tr>
+        <td class="total-label">Total</td>
+        <td id="grandTotal" class="total-label">₹0.00</td>
+      </tr>
+    </table>
+    <button id="placeOrderButton" class="checkout-btn" disabled onclick="placeOrder()">
+      Place Order
+    </button>
+  </div>
+</div>
+
+</body>
+</html>

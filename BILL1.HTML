@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Bill</title>
+    <link rel="stylesheet" href="bill1.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Your Bill</h1>
+    </header>
+
+    <section class="bill-section">
+        <div id="bill-container"></div>
+        <button onclick="Next()"><a href="sellerpay.html">Next</button></a>
+    </section>
+
+    <script>
+
+        function getBillItems() {
+            const params = new URLSearchParams(window.location.search);
+            const itemsParam = params.get("items");
+            if (!itemsParam) return [];
+            return JSON.parse(decodeURIComponent(itemsParam));
+        }
+
+        function displayBill() {
+            const items = getBillItems();
+            const billContainer = document.getElementById("bill-container");
+
+            if (items.length === 0) {
+                billContainer.innerHTML = "<p>No items to display.</p>";
+                return;
+            }
+
+            let content = "<ul>";
+            let totalAmount = 0;
+
+            items.forEach(item => {
+                totalAmount += item.total;
+                content += `
+                    <li>
+                        <img src="${item.image}" alt="${item.name}" class="bill-image">
+                        <div>${item.name}: ${item.quantity} kg x ₹${item.pricePerKg} = ₹${item.total}</div>
+                    </li>`;
+            });
+
+            content += `</ul><p><strong>Total: ₹${totalAmount}</strong></p>`;
+            billContainer.innerHTML = content;
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        window.onload = displayBill;
+    </script>
+</body>
+</html>

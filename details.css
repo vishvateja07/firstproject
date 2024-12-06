@@ -1,0 +1,130 @@
+/* General Page Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Title */
+h1 {
+    color: #2980b9;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Section Headers */
+h2 {
+    font-size: 1.4em;
+    color: #2980b9;
+    margin-top: 20px;
+}
+
+/* Container for the Buttons and Results */
+div {
+    margin-top: 15px;
+    width: 100%;
+    max-width: 700px;
+}
+
+/* Button Styling */
+button {
+    background-color: #2980b9;
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #1f6f96;
+    transform: translateY(-2px);
+}
+
+button:active {
+    background-color: #1a5a7b;
+    transform: translateY(2px);
+}
+
+/* Input Fields */
+input[type="email"],
+input[type="text"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus State for Input Fields */
+input[type="email"]:focus,
+input[type="text"]:focus,
+select:focus {
+    border-color: #2980b9;
+    outline: none;
+}
+
+/* Results Display */
+#allUsersDisplay,
+#loggedInUserDisplay,
+#checkResult,
+#updateResult,
+#deleteResult {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #ecf6fb;
+    border-left: 4px solid #2980b9;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+#checkResult, #updateResult, #deleteResult {
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    button {
+        font-size: 14px;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    select {
+        font-size: 14px;
+    }
+}
+
+/* Footer (optional) */
+footer {
+    position: absolute;
+    bottom: 10px;
+    font-size: 12px;
+    color: #777;
+}

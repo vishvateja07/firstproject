@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Bill</title>
+    <link rel="stylesheet" href="bill.css">
+     
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <h1>Your Bill</h1>
+    </header>
+
+    <!-- Bill Section -->
+    <section class="bill-section">
+        <h2>Bill Summary</h2>
+        <div id="bill-container">
+            <!-- Bill items will be dynamically inserted here -->
+        </div>
+        <button class="back-button" onclick="  window.history.back()"><a href="selling.html">Go Back</a></button>
+    </section>
+
+    <script>
+        window.onload = function() {
+            const selectedItems = JSON.parse(localStorage.getItem("selectedItems"));
+            if (selectedItems && selectedItems.length > 0) {
+                let billDetails = '<ul>';
+                let totalBill = 0;
+
+                selectedItems.forEach(item => {
+                    billDetails += `<li>${item.name}: ${item.quantity} kg x ₹${item.pricePerKg} = ₹${item.total}</li>`;
+                    totalBill += item.total;
+                });
+
+                billDetails += `</ul><p><strong>Total Bill: ₹${totalBill}</strong></p>`;
+                document.getElementById("bill-container").innerHTML = billDetails;
+            } else {
+                document.getElementById("bill-container").innerHTML = "<p>No items selected.</p>";
+            }
+        }
+    </script>
+</body>
+</html>

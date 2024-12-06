@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Data Management</title>
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+    <h1>User Data Management</h1>
+
+    <!-- User and Cart Details -->
+    <button onclick="showUserAndCartDetails()">Show User and Cart Details</button>
+    <div id="userCartDisplay"></div>
+
+    <!-- Update User Address -->
+    <h2>Update Address</h2>
+    <input type="text" id="userAddress" placeholder="Enter your address">
+    <button onclick="updateAddress()">Update Address</button>
+    <div id="addressResult"></div>
+
+    <!-- Additional User Management Features -->
+    <h2>Manage Users</h2>
+    <button onclick="showAllUsers()">Show All Users</button>
+    <div id="allUsersDisplay"></div>
+
+    <script>
+        // Decode cart data from query string
+        function getCartData() {
+            const params = new URLSearchParams(window.location.search);
+            const cartItems = params.get("items");
+            return cartItems ? JSON.parse(decodeURIComponent(cartItems)) : [];
+        }
+
+        // Link cart items to the logged-in user
+        function linkCartToUser(cartItems) {
+            const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+            if (loggedInUser) {
+                // Update the logged-in user's cart
+                loggedInUser.cart = cartItems;
+                localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+
+                // Update the user's data in the users list
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                const userIndex = users.findIndex(user => user.email === loggedInUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].cart = cartItems;
+                    localStorage.setItem("users", JSON.stringify(users));
+                }
+            }
+        }
+
+        // Show user and cart details
+        function showUserAndCartDetails() {
+            const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+            if (!loggedInUser) {
+                document.getElementById("userCartDisplay").innerHTML = "<p>No logged-in user.</p>";
+                return;
+            }
+
+            // Display user details
+            let userDetailsHTML = `
+                <h3>Logged-In User Details</h3>
+                <p>Name: ${loggedInUser.name}</p>
+                <p>Email: ${loggedInUser.email}</p>
+                <p>Account Type: ${loggedInUser.accountType}</p>
+                <p>Address: ${loggedInUser.address || "No address provided"}</p>`;
+
+            // Display cart details
+            const cartItems = loggedInUser.cart || [];
+            let cartDetailsHTML = cartItems.length
+                ? `<h3>Cart Details</h3>
+                   <ul>${cartItems.map(item =>
+                        `<li>
+                            <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px;">
+                            ${item.name}: ${item.quantity} kg @ ₹${item.pricePerKg}/kg (Total: ₹${item.total})
+                         </li>`).join("")}</ul>
+                         <p><strong>Seller Address:</strong> ${cartItems[0]?.sellerAddress || "No seller address provided"}</p>`
+                : "<p>Your cart is empty.</p>";
+
+            document.getElementById("userCartDisplay").innerHTML = userDetailsHTML + cartDetailsHTML;
+        }
+
+        // Update the logged-in user's address
+        function updateAddress() {
+            const newAddress = document.getElementById("userAddress").value;
+            if (!newAddress) {
+                document.getElementById("addressResult").innerHTML = "Please enter a valid address.";
+                return;
+            }
+
+            const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+            if (loggedInUser) {
+                // Update address for the logged-in user
+                loggedInUser.address = newAddress;
+                localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser));
+
+                // Update the address in the users list
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                const userIndex = users.findIndex(user => user.email === loggedInUser.email);
+                if (userIndex !== -1) {
+                    users[userIndex].address = newAddress;
+                    localStorage.setItem("users", JSON.stringify(users));
+                }
+
+                document.getElementById("addressResult").innerHTML = "Address updated successfully.";
+            } else {
+                document.getElementById("addressResult").innerHTML = "No user is currently logged in.";
+            }
+        }
+
+        // Show all users
+        function showAllUsers() {
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const display = users.map(user =>
+                `Name: ${user.name}, Email: ${user.email}, Account Type: ${user.accountType}, 
+                 Address: ${user.address || "No address provided"},
+                 Cart: ${user.cart ? user.cart.map(item => item.name).join(", ") : "No products"}`).join("<br>");
+            document.getElementById("allUsersDisplay").innerHTML = display || "No users found.";
+        }
+
+        // On page load, link cart data to the logged-in user
+        document.addEventListener("DOMContentLoaded", () => {
+            const cartItems = getCartData();
+            if (cartItems.length) {
+                linkCartToUser(cartItems);
+            }
+        });
+    </script>
+</body>
+</html>

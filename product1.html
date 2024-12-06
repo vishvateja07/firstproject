@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agricultural Waste Marketplace</title>
+    <link rel="stylesheet" href="selling.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Agricultural Waste Marketplace</h1>
+        <p>Sell your agricultural waste products here for sustainable solutions.</p>
+    </header>
+
+    <section class="product-section">
+        <h2>Available Agricultural Waste Products</h2>
+        <div class="product-container">
+            <!-- Product Cards -->
+            <div class="product-card">
+                <img src="https://www.rhetech.com/wp-content/uploads/sites/30/2020/04/Landscape-standard-880x540-Rice-hull-fibre-02.jpg" alt="Rice Husk" class="product-image">
+                <h3>Rice Husk</h3>
+                <p>Price per kg: ₹5</p>
+                <label for="quantity-rice-husk">Enter Quantity (kg):</label>
+                <input type="number" id="quantity-rice-husk" class="quantity-input" min="1" placeholder="Enter quantity in kg">
+                <button onclick="addItem('Rice Husk', 'quantity-rice-husk', 5, 'https://www.rhetech.com/wp-content/uploads/sites/30/2020/04/Landscape-standard-880x540-Rice-hull-fibre-02.jpg ')">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src=" https://thumbs.dreamstime.com/b/sugarcane-pulp-which-juice-has-been-extracted-sugarcane-pulp-which-juice-has-been-extracted-335697032.jpg"alt="Sugarcane Bagasse" class="product-image">
+                <h3>Sugarcane Bagasse</h3>
+                <p>Price per kg: ₹15</p>
+                <label for="quantity-sugarcane-bagasse">Enter Quantity (kg):</label>
+                <input type="number" id="quantity-sugarcane-bagasse" class="quantity-input" min="1" placeholder="Enter quantity in kg">
+                <button onclick="addItem('Sugarcane Bagasse', 'quantity-sugarcane-bagasse', 15, 'https://thumbs.dreamstime.com/b/sugarcane-pulp-which-juice-has-been-extracted-sugarcane-pulp-which-juice-has-been-extracted-335697032.jpg ')">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src=" https://5.imimg.com/data5/SELLER/Default/2023/6/315782453/IL/ZZ/XQ/11591499/paddy-straw-bales.jpeg"alt="Rice Straw" class="product-image">
+                <h3>Rice-Straw</h3>
+                <p>Price per kg: ₹7</p>
+                <label for="quantity-Rice-Straw">Enter Quantity (kg):</label>
+                <input type="number" id="quantity-Rice-Straw" class="quantity-input" min="1" placeholder="Enter quantity in kg">
+                <button onclick="addItem(' Rice-Straw', 'quantity- Rice-Straw', 7, ' https://5.imimg.com/data5/SELLER/Default/2023/6/315782453/IL/ZZ/XQ/11591499/paddy-straw-bales.jpeg')">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <img src="https://parachutekalpavriksha.org/cdn/shop/articles/Recycling_coconut_waste_multiple_uses_of_the_coconut_shell.jpg?v=1711266598&width=2048"alt="Coconut-Shell" class="product-image">
+                <h3>Coconut-Shell</h3>
+                <p>Price per kg: ₹10</p>
+                <label for="quantity-coconut-shell">Enter Quantity (kg):</label>
+                <input type="number" id="quantity-coconut-shell" class="quantity-input" min="1" placeholder="Enter quantity in kg">
+                <button onclick="addItem(' Coconut-Shell', 'quantity- Coconut-Shell', 10, '  https://parachutekalpavriksha.org/cdn/shop/articles/Recycling_coconut_waste_multiple_uses_of_the_coconut_shell.jpg?v=1711266598&width=2048')">Add to Cart</button>
+            </div>
+            <!-- Add more products as needed -->
+        </div>
+        <button onclick="viewCart()">View Cart</button>
+    </section>
+
+    <script>
+        const selectedItems = [];
+
+        function addItem(name, quantityId, pricePerKg, imageUrl) {
+            const quantity = parseInt(document.getElementById(quantityId).value);
+            if (!quantity || quantity <= 0) {
+                alert("Please enter a valid quantity.");
+                return;
+            }
+
+            selectedItems.push({
+                name,
+                quantity,
+                pricePerKg,
+                total: quantity * pricePerKg,
+                image: imageUrl, // Add the image URL to the selected item
+            });
+
+            alert(`${quantity} kg of ${name} added to cart.`);
+        }
+
+        function viewCart() {
+            if (selectedItems.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            const queryString = encodeURIComponent(JSON.stringify(selectedItems));
+            window.location.href = `cart1.html?items=${queryString}`;
+        }
+    </script>
+</body>
+</html>

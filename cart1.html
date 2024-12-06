@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="cart1.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Your Cart</h1>
+    </header>
+
+    <section class="cart-section">
+        <div id="cart-container"></div>
+        <button onclick="proceedToBill()">Proceed to Bill</button>
+    </section>
+
+    <script>
+        /**
+         * Retrieves cart items from query parameters.
+         */
+        function getCartItems() {
+            const params = new URLSearchParams(window.location.search);
+            const itemsParam = params.get("items");
+            if (!itemsParam) return [];
+            return JSON.parse(decodeURIComponent(itemsParam));
+        }
+
+        /**
+         * Renders the cart items in the container.
+         */
+        function displayCart() {
+            const items = getCartItems();
+            const cartContainer = document.getElementById("cart-container");
+
+            if (items.length === 0) {
+                cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+                return;
+            }
+
+            let content = "<ul>";
+            items.forEach((item, index) => {
+                content += `
+                    <li>
+                        <img src="${item.image}" alt="${item.name}" class="cart-image">
+                        <div>
+                            <span>${item.name}: ${item.quantity} kg x ₹${item.pricePerKg} = ₹${item.total}</span>
+                            <button onclick="removeItem(${index})">Remove</button>
+                        </div>
+                    </li>`;
+            });
+            content += "</ul>";
+            cartContainer.innerHTML = content;
+        }
+
+        /**
+         * Removes an item from the cart based on index and refreshes the cart view.
+         */
+        function removeItem(index) {
+            const items = getCartItems();
+            items.splice(index, 1); // Remove the selected item
+
+            // Update the query parameters and reload the page
+            const queryString = encodeURIComponent(JSON.stringify(items));
+            window.location.href = `cart1.html?items=${queryString}`;
+        }
+
+        /**
+         * Proceeds to the bill page, passing the cart items.
+         */
+        function proceedToBill() {
+            const items = getCartItems();
+            if (items.length === 0) {
+                alert("Your cart is empty.");
+                return;
+            }
+
+            const queryString = encodeURIComponent(JSON.stringify(items));
+            window.location.href = `bill1.html?items=${queryString}`;
+        }
+
+        // Load and display cart items when the page is ready
+        window.onload = displayCart;
+    </script>
+</body>
+</html>

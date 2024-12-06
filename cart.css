@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .cart-section, .billing-section, .summary-section {
+    width: 100%;
+    padding: 20px;
+  }
+  .cart-section table, .summary-section table {
+    width: 100%;
+    margin-top: 10px;
+  }
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  .cart-table, .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+  th {
+    background-color: #f4f4f4;
+  }
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .summary-section {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  .total-label {
+    font-weight: bold;
+  }
+  .checkout-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .checkout-btn:hover {
+    background-color: #218838;
+  }
+  a{
+     color: white;
+     text-decoration: none;
+  }
+  .remove-btn {
+    color: red;
+    cursor: pointer;
+  }

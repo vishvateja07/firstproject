@@ -1,0 +1,31 @@
+p{
+    font-size: 1.5em; 
+
+ }
+ #navbar{
+    height: 90px;
+    background-color:#4CAF50;
+    color: aliceblue;
+    
+    
+}
+a{
+    margin-right: 100px;
+}
+a:hover{
+    
+ border-radius: 15px;
+ text-decoration: underline;
+}
+#navbar a{
+  color: black;
+  font-size: 1.25rem;
+}
+p{
+  font-size: 1.5rem;
+}
+#navbar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
